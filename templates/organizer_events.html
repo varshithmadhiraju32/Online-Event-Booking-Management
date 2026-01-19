@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organizer Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">🎤 CineBook <span class="admin-badge">Organizer</span></div>
+
+    <nav class="nav">
+        <a href="/home" class="nav-link">Home</a>
+        <a href="/logout" class="nav-link">Logout</a>
+    </nav>
+</header>
+
+<section class="movies">
+    <h2>My Events</h2>
+
+    <!-- ADD EVENT FORM -->
+    <form action="/organizer/events/add" method="POST" class="admin-form">
+
+        <input type="text" name="title" placeholder="Event Title" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="date" name="date" required>
+        <input type="text" name="location" placeholder="Location" required>
+
+        <h3>VIP</h3>
+        <input type="number" name="vip_price" placeholder="Price" required>
+        <input type="number" name="vip_seats" placeholder="Seats" required>
+
+        <h3>VVIP</h3>
+        <input type="number" name="vvip_price" placeholder="Price" required>
+        <input type="number" name="vvip_seats" placeholder="Seats" required>
+
+        <h3>MIP</h3>
+        <input type="number" name="mip_price" placeholder="Price" required>
+        <input type="number" name="mip_seats" placeholder="Seats" required>
+
+        <h3>Celebrity</h3>
+        <input type="number" name="celebrity_price" placeholder="Price" required>
+        <input type="number" name="celebrity_seats" placeholder="Seats" required>
+
+        <button class="btn-yellow full-width">Add Event</button>
+    </form>
+
+    <!-- EVENTS LIST -->
+    <div class="movie-grid">
+        {% for e in events %}
+        <div class="movie-card">
+            <div class="movie-title">{{ e.title }}</div>
+
+            <p style="color:#aaa; padding:10px;">
+                📅 {{ e.date }}<br>
+                📍 {{ e.location }}
+            </p>
+
+            <a href="/organizer/events/delete/{{ e.id }}"
+               class="btn-yellow"
+               style="display:block; margin:10px; text-align:center;">
+                Delete
+            </a>
+        </div>
+        {% else %}
+        <p style="color:#aaa;">No events created yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+</body>
+</html>

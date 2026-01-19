@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Bookings</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header">
+<div class="logo">🎬 CineBook</div>
+<nav class="nav">
+<a href="/home" class="nav-link">Events</a>
+<a href="/logout" class="nav-link">Logout</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Your <span>Bookings</span></h1>
+</section>
+
+<section class="movies">
+<div class="movie-grid">
+{% for b in bookings %}
+<div class="movie-card">
+<div class="movie-title">🎟 {{ b[0] }}</div>
+
+<p style="padding:10px;">
+VIP: {{ b[3] }} |
+VVIP: {{ b[4] }} |
+MIP: {{ b[5] }} |
+Celebrity: {{ b[6] }}
+</p>
+
+<p style="padding:10px;color:#facc15;">
+💰 ₹{{ b[7] }}
+</p>
+
+<p style="padding:10px;font-size:12px;color:#888;">
+{{ b[8] }}
+</p>
+</div>
+{% endfor %}
+</div>
+</section>
+
+</body>
+</html>

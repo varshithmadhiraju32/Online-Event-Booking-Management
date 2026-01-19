@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Booking Successful</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-body">
+
+<div class="success-card">
+    <h1>✅ Booking Successful</h1>
+    <p>Your tickets are confirmed</p>
+
+    <div class="ticket-box">
+        🎟 Ticket ID: <strong>{{ ticket_id }}</strong><br>
+        💰 Total Paid: ₹{{ total_price }}
+    </div>
+
+    <a href="/home" class="btn-yellow">Back to Events</a>
+</div>
+
+</body>
+</html>

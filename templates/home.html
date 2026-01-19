@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CineBook | Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">🎬 CineBook</div>
+
+    <nav class="nav">
+        <a href="/home" class="btn-yellow">Events</a>
+
+        {% if role == 'admin' %}
+            <a href="/admin/events" class="nav-link">Admin</a>
+        {% endif %}
+
+        {% if role == 'organizer' %}
+            <a href="/organizer/events" class="nav-link">Organizer</a>
+        {% endif %}
+
+        <div class="profile" onclick="toggleDropdown(event)">
+            👤
+            <div class="dropdown">
+                <p class="username">{{ session['name'] }}</p>
+                <a href="/my-bookings">My Bookings</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <span class="badge">✨ Upcoming Events</span>
+    <h1>Book Your <span>Event Tickets</span></h1>
+    <p>Discover and book exciting live events</p>
+</section>
+
+<section class="movies">
+    <div class="movies-header">
+        <h2>Featured Events</h2>
+        <span>{{ events|length }} events available</span>
+    </div>
+
+    <div class="movie-grid">
+        {% for e in events %}
+        <div class="movie-card">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
+
+            <div class="movie-title">{{ e.title }}</div>
+
+            <p style="color:#aaa; padding:0 12px;">
+                📅 {{ e.date }} <br>
+                📍 {{ e.location }}
+            </p>
+
+            <p style="color:#facc15; font-weight:bold; padding:0 12px 12px;">
+                Starting from ₹{{ e.starting_price }}
+            </p>
+
+            <a href="/event/{{ e.id }}" class="btn-yellow" style="margin:10px;">
+                View Details
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+function toggleDropdown(e){
+    e.stopPropagation();
+    document.querySelector(".dropdown").classList.toggle("show");
+}
+document.addEventListener("click",()=>{
+    document.querySelector(".dropdown")?.classList.remove("show");
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #000;
+    color: #fff;
+}
+
+/* ================= HEADER ================= */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    color: #facc15;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* ================= NAV ================= */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav a,
+.nav button {
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    color: #d1d5db;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.nav a:hover,
+.nav button:hover {
+    background: #facc15;
+    color: #000;
+}
+
+/* ACTIVE BUTTON */
+.btn-yellow {
+    background: #facc15 !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+/* ================= PROFILE ================= */
+.profile {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background: #222;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #facc15;
+    cursor: pointer;
+}
+
+/* ================= DROPDOWN (CLICK BASED) ================= */
+.dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #111;
+    border-radius: 10px;
+    width: 180px;
+    display: none;          /* IMPORTANT */
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+.dropdown.show {
+    display: flex;          /* toggled via JS */
+}
+
+.dropdown p {
+    padding: 12px;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+}
+
+.dropdown a {
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown a:hover {
+    background: #facc15;
+    color: black;
+}
+
+/* ❌ REMOVED hover-based dropdown */
+/*
+.profile:hover .dropdown {
+    display: flex;
+}
+*/
+
+.username {
+    font-weight: bold;
+}
+
+/* ================= HERO ================= */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.badge {
+    background: #222;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin: 20px 0;
+}
+
+.hero h1 span {
+    color: #facc15;
+}
+
+.hero p {
+    color: #aaa;
+    max-width: 600px;
+    margin: auto;
+}
+
+.search {
+    margin-top: 30px;
+    width: 60%;
+    max-width: 500px;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    background: #222;
+    color: white;
+}
+
+/* ================= EVENTS ================= */
+.movies {
+    padding: 40px;
+}
+
+.movies-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.movies-header span {
+    color: #888;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+.movie-card {
+    background: #111;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.movie-title {
+    padding: 12px;
+    font-weight: bold;
+}
+
+/* ================= AUTH ================= */
+.auth-body {
+    height: 100vh;
+    background: radial-gradient(circle, #111, #000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card,
+.success-card {
+    background: #111;
+    padding: 40px;
+    border-radius: 14px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(250,204,21,0.2);
+}
+
+.auth-card h2,
+.success-card h1 {
+    color: #facc15;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: #222;
+    color: white;
+}
+
+.auth-card button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #facc15;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ================= DETAILS ================= */
+.detail-container {
+    display: flex;
+    gap: 40px;
+    padding: 60px;
+}
+
+.detail-container img {
+    width: 350px;
+    border-radius: 14px;
+}
+
+.book-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #facc15;
+    color: black;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.book-btn:hover {
+    opacity: 0.9;
+}
+
+/* ================= ADMIN ================= */
+.admin-badge {
+    background: #facc15;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: bold;
+}
+
+.admin-form {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+}
+
+.admin-form input,
+.admin-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: none;
+}
+
+/* ================= GLOBAL LINK FIX ================= */
+a {
+    text-decoration: none;
+}
