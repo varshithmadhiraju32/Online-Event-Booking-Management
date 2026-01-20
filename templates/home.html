@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<!-- ================= HEADER ================= -->
 <header class="header">
     <div class="logo">🎬 CineBook</div>
 
@@ -32,42 +33,54 @@
     </nav>
 </header>
 
+<!-- ================= HERO ================= -->
 <section class="hero">
     <span class="badge">✨ Upcoming Events</span>
     <h1>Book Your <span>Event Tickets</span></h1>
     <p>Discover and book exciting live events</p>
 </section>
 
+<!-- ================= EVENTS ================= -->
 <section class="movies">
+
     <div class="movies-header">
         <h2>Featured Events</h2>
-        <span>{{ events|length }} events available</span>
+        <span class="event-count">{{ events|length }} events available</span>
     </div>
 
     <div class="movie-grid">
         {% for e in events %}
         <div class="movie-card">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
 
-            <div class="movie-title">{{ e.title }}</div>
+            <div class="movie-image">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
+            </div>
 
-            <p style="color:#aaa; padding:0 12px;">
-                📅 {{ e.date }} <br>
-                📍 {{ e.location }}
-            </p>
+            <div class="movie-content">
+                <h3 class="movie-title">{{ e.title }}</h3>
 
-            <p style="color:#facc15; font-weight:bold; padding:0 12px 12px;">
-                Starting from ₹{{ e.starting_price }}
-            </p>
+                <div class="movie-meta">
+                    <span>📅 {{ e.date }}</span>
+                    <span>📍 {{ e.location }}</span>
+                </div>
 
-            <a href="/event/{{ e.id }}" class="btn-yellow" style="margin:10px;">
-                View Details
-            </a>
+                <div class="movie-footer">
+                    <div class="price">
+                        Starting from ₹{{ e.starting_price }}
+                    </div>
+
+                    <a href="/event/{{ e.id }}" class="btn-yellow">
+                        View Details
+                    </a>
+                </div>
+            </div>
+
         </div>
         {% endfor %}
     </div>
 </section>
 
+<!-- ================= DROPDOWN SCRIPT ================= -->
 <script>
 function toggleDropdown(e){
     e.stopPropagation();

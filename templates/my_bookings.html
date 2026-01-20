@@ -19,28 +19,43 @@
 </section>
 
 <section class="movies">
-<div class="movie-grid">
-{% for b in bookings %}
-<div class="movie-card">
-<div class="movie-title">🎟 {{ b[0] }}</div>
+    <div class="movie-grid">
 
-<p style="padding:10px;">
-VIP: {{ b[3] }} |
-VVIP: {{ b[4] }} |
-MIP: {{ b[5] }} |
-Celebrity: {{ b[6] }}
-</p>
+        {% for b in bookings %}
+        <div class="movie-card booking-card">
 
-<p style="padding:10px;color:#facc15;">
-💰 ₹{{ b[7] }}
-</p>
+            <div class="movie-title">
+                🎟 {{ b[0] }}
+            </div>
 
-<p style="padding:10px;font-size:12px;color:#888;">
-{{ b[8] }}
-</p>
-</div>
-{% endfor %}
-</div>
+            <p class="booking-info">
+                VIP: {{ b[3] }} |
+                VVIP: {{ b[4] }} |
+                MIP: {{ b[5] }} |
+                Celebrity: {{ b[6] }}
+            </p>
+
+            <p class="booking-price">
+                💰 ₹{{ b[7] }}
+            </p>
+
+            <p class="booking-date">
+                {{ b[8] }}
+            </p>
+
+            <!-- CANCEL BUTTON -->
+            <a href="/cancel-booking/{{ b[0] }}"
+               class="btn-yellow cancel-btn"
+               onclick="return confirm('Cancel this ticket? Seats will be restored.')">
+                Cancel Ticket
+            </a>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+
 </section>
 
 </body>

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <header class="header">
     <div class="logo">
         🎤 CineBook <span class="admin-badge">Admin</span>
@@ -21,9 +21,14 @@
     </nav>
 </header>
 
-<!-- EVENTS LIST -->
-<section class="movies">
-    <h2>All Events</h2>
+<!-- ================= EVENTS LIST ================= -->
+<section class="movies" style="margin-top: 50px;">
+
+    <!-- PAGE TITLE -->
+    <div class="movies-header">
+        <h2>All Events</h2>
+        <span class="event-count">{{ events|length }} events</span>
+    </div>
 
     {% if events %}
     <div class="movie-grid">
@@ -31,22 +36,22 @@
         {% for e in events %}
         <div class="movie-card">
 
-            <!-- Event Title -->
+            <!-- EVENT TITLE -->
             <div class="movie-title">
                 {{ e[1] }}
             </div>
 
-            <!-- Event Info -->
-            <p style="color:#aaa; padding:10px;">
-                📅 {{ e[2] }} <br>
-                📍 {{ e[3] }} <br>
-                👤 Organizer: {{ e[4] }}
-            </p>
+            <!-- EVENT INFO -->
+            <div class="movie-meta" style="padding: 10px 12px;">
+                <span>📅 {{ e[2] }}</span><br>
+                <span>📍 {{ e[3] }}</span><br>
+                <span>👤 Organizer: {{ e[4] }}</span>
+            </div>
 
-            <!-- Delete Button -->
+            <!-- DELETE BUTTON -->
             <a href="/admin/events/delete/{{ e[0] }}"
                class="btn-yellow"
-               style="display:block; margin:10px; text-align:center;"
+               style="display:block; margin:12px; text-align:center;"
                onclick="return confirm('Are you sure you want to delete this event?');">
                 Delete Event
             </a>
@@ -56,10 +61,11 @@
 
     </div>
     {% else %}
-        <p style="color:#aaa; text-align:center; margin-top:20px;">
+        <p style="color:#aaa; text-align:center; margin-top:40px;">
             No events found.
         </p>
     {% endif %}
+
 </section>
 
 </body>

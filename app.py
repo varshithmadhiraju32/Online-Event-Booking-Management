@@ -225,6 +225,56 @@ def my_bookings():
 
     return render_template("my_bookings.html", bookings=bookings, role=session.get("role"))
 
+@app.route("/cancel-booking/<ticket_id>")
+def cancel_booking(ticket_id):
+    if "user_id" not in session:
+        return redirect("/login")
+
+    con = get_db()
+    cur = con.cursor()
+
+    # Fetch booking details (AS TUPLE)
+    cur.execute("""
+        SELECT event_id, vip_qty, vvip_qty, mip_qty, celebrity_qty
+        FROM bookings
+        WHERE ticket_id = ? AND user_id = ?
+    """, (ticket_id, session["user_id"]))
+
+    booking = cur.fetchone()
+
+    if not booking:
+        con.close()
+        return "Invalid booking"
+
+    event_id = booking[0]
+    vip = booking[1]
+    vvip = booking[2]
+    mip = booking[3]
+    celebrity = booking[4]
+
+    # Restore seats
+    cur.execute("""
+        UPDATE events
+        SET
+            vip_seats = vip_seats + ?,
+            vvip_seats = vvip_seats + ?,
+            mip_seats = mip_seats + ?,
+            celebrity_seats = celebrity_seats + ?
+        WHERE id = ?
+    """, (vip, vvip, mip, celebrity, event_id))
+
+    # Delete booking
+    cur.execute("""
+        DELETE FROM bookings
+        WHERE ticket_id = ?
+    """, (ticket_id,))
+
+    con.commit()
+    con.close()
+
+    return redirect("/my-bookings")
+
+
 # ================= ADMIN =================
 @app.route("/admin/events")
 def admin_events():
@@ -276,6 +326,15 @@ def admin_users():
 
     return render_template("admin_users.html", users=users)
 
+# ================= ADMIN DASHBOARD =================
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    if session.get("role") != "admin":
+        return redirect("/home")
+
+    return render_template("admin_dashboard.html")
+
+
 
 @app.route("/admin/users/role/<int:user_id>", methods=["POST"])
 def admin_change_role(user_id):
@@ -303,6 +362,84 @@ def admin_delete_user(user_id):
     con.close()
 
     return redirect("/admin/users")
+
+# ================= ORGANIZER =================
+@app.route("/organizer/events")
+def organizer_events():
+    if session.get("role") != "organizer":
+        return redirect("/home")
+
+    con = get_db()
+    cur = con.cursor()
+
+    cur.execute("""
+        SELECT id, title, date, location
+        FROM events
+        WHERE organizer_id IS NOT NULL
+          AND organizer_id = ?
+        ORDER BY date DESC
+    """, (session["user_id"],))
+
+    events = cur.fetchall()
+    con.close()
+
+    return render_template("organizer_events.html", events=events)
+
+
+@app.route("/organizer/events/add", methods=["GET", "POST"])
+def organizer_add_event():
+    if session.get("role") != "organizer":
+        return redirect("/home")
+
+    if request.method == "POST":
+        con = get_db()
+        cur = con.cursor()
+        cur.execute("""
+            INSERT INTO events
+            (title, description, date, location,
+             vip_price, vvip_price, mip_price, celebrity_price,
+             vip_seats, vvip_seats, mip_seats, celebrity_seats,
+             organizer_id)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+        """, (
+            request.form["title"],
+            request.form["description"],
+            request.form["date"],
+            request.form["location"],
+            request.form["vip_price"],
+            request.form["vvip_price"],
+            request.form["mip_price"],
+            request.form["celebrity_price"],
+            request.form["vip_seats"],
+            request.form["vvip_seats"],
+            request.form["mip_seats"],
+            request.form["celebrity_seats"],
+            session["user_id"]
+        ))
+        con.commit()
+        con.close()
+
+        return redirect("/organizer/events")
+
+    return render_template("organizer_add_event.html")
+
+
+@app.route("/organizer/events/delete/<int:event_id>")
+def organizer_delete_event(event_id):
+    if session.get("role") != "organizer":
+        return redirect("/home")
+
+    con = get_db()
+    cur = con.cursor()
+    cur.execute(
+        "DELETE FROM events WHERE id=? AND organizer_id=?",
+        (event_id, session["user_id"])
+    )
+    con.commit()
+    con.close()
+
+    return redirect("/organizer/events")
+
 
 # ================= RUN =================
 if __name__ == "__main__":
