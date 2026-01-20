@@ -6,9 +6,15 @@ app = Flask(__name__)
 app.secret_key = "cinebook_secret"
 
 # ================= DATABASE =================
-def get_db():
-    return sqlite3.connect("database.db", check_same_thread=False)
+import sqlite3
 
+def get_db():
+    con = sqlite3.connect("database.db", timeout=30)
+    con.execute("PRAGMA journal_mode=WAL;")
+    con.execute("PRAGMA synchronous=NORMAL;")
+
+    return con
+    
 # ================= AUTH =================
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
@@ -41,24 +47,32 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        con = get_db()
-        cur = con.cursor()
-        cur.execute(
-            "INSERT INTO users (name,email,password,role) VALUES (?,?,?,?)",
-            (
+        con = None
+        try:
+            con = get_db()
+            cur = con.cursor()
+
+            cur.execute("""
+                INSERT INTO users (name, email, password, role)
+                VALUES (?, ?, ?, ?)
+            """, (
                 request.form["name"],
                 request.form["email"],
                 request.form["password"],
                 "user"
-            )
-        )
-        con.commit()
-        con.close()
-        return redirect("/login")
+            ))
+
+            con.commit()
+            return redirect("/login")
+
+        except sqlite3.OperationalError as e:
+            return f"Database error: {e}"
+
+        finally:
+            if con:
+                con.close()
 
     return render_template("register.html")
-
-
 @app.route("/logout")
 def logout():
     session.clear()
@@ -498,4 +512,4 @@ def organizer_edit_event(event_id):
 
 # ================= RUN =================
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False, threaded=False)
