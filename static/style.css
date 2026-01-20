@@ -916,3 +916,97 @@ a {
     padding: 12px;
     border-radius: 8px;
 }
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px;
+}
+
+.event-form {
+    background: #111;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+.row input {
+    flex: 1;
+}
+.event-form {
+    max-width: 600px;
+    margin: auto;
+}
+
+.event-form .row {
+    display: flex;
+    gap: 15px;
+}
+
+.event-form .row input {
+    flex: 1;
+}
+
+.event-form textarea {
+    width: 100%;
+    resize: none;
+    height: 80px;
+}
+
+/* Force same spacing as Add Event */
+.event-form h3 {
+    margin-top: 20px;
+    color: #facc15;
+}
+.event-form input,
+.event-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 12px !important;   /* FORCE CURVES */
+    border: none;
+    background: #fff;
+    color: #fff;
+    font-size: 15px;
+}
+
+.event-form textarea {
+    resize: none;
+    height: 90px;
+}
+
+.event-form label {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 12px;
+    display: block;
+}
+
+.event-form h3 {
+    margin-top: 22px;
+    margin-bottom: 6px;
+    color: #facc15;
+    font-size: 16px;
+}
+
+/* Two-column alignment */
+.event-form .row {
+    display: flex;
+    gap: 16px;
+}
+
+.event-form .row > div {
+    flex: 1;
+}
+
+/* Button alignment */
+.event-form .btn-yellow {
+    margin-top: 25px;
+    border-radius: 999px;
+    padding: 14px;
+    font-size: 15px;
+}

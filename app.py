@@ -440,6 +440,61 @@ def organizer_delete_event(event_id):
 
     return redirect("/organizer/events")
 
+# ================= ORGANIZER EDIT EVENT =================
+@app.route("/organizer/events/edit/<int:event_id>", methods=["GET", "POST"])
+def organizer_edit_event(event_id):
+    if session.get("role") != "organizer":
+        return redirect("/home")
+
+    con = get_db()
+    cur = con.cursor()
+
+    # GET EVENT (only organizer's own event)
+    cur.execute("""
+        SELECT *
+        FROM events
+        WHERE id=? AND organizer_id=?
+    """, (event_id, session["user_id"]))
+
+    event = cur.fetchone()
+
+    if not event:
+        con.close()
+        return "Unauthorized access or event not found"
+
+    # UPDATE EVENT
+    if request.method == "POST":
+        cur.execute("""
+            UPDATE events
+            SET title=?, description=?, date=?, location=?,
+                vip_price=?, vvip_price=?, mip_price=?, celebrity_price=?,
+                vip_seats=?, vvip_seats=?, mip_seats=?, celebrity_seats=?
+            WHERE id=? AND organizer_id=?
+        """, (
+            request.form["title"],
+            request.form["description"],
+            request.form["date"],
+            request.form["location"],
+            request.form["vip_price"],
+            request.form["vvip_price"],
+            request.form["mip_price"],
+            request.form["celebrity_price"],
+            request.form["vip_seats"],
+            request.form["vvip_seats"],
+            request.form["mip_seats"],
+            request.form["celebrity_seats"],
+            event_id,
+            session["user_id"]
+        ))
+
+        con.commit()
+        con.close()
+        return redirect("/organizer/events")
+
+    con.close()
+    return render_template("organizer_edit_event.html", event=event)
+
+
 
 # ================= RUN =================
 if __name__ == "__main__":
