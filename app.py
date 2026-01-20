@@ -9,7 +9,7 @@ app.secret_key = "cinebook_secret"
 import sqlite3
 
 def get_db():
-    con = sqlite3.connect("database.db", timeout=30)
+    con = sqlite3.connect("new_database.db", timeout=30)
     con.execute("PRAGMA journal_mode=WAL;")
     con.execute("PRAGMA synchronous=NORMAL;")
 
